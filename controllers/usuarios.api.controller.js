@@ -10,6 +10,16 @@ const getUserById = async (req, res) => {
     }
 }
 
+const createUser = async (req, res) => {
+    const user = req.body
+    try {
+        await userService.createUser(user);
+        return res.status(201).json({ status: true, message: 'Usuario creado' })
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message })
+    }
+}
 export {
-    getUserById
+    getUserById,
+    createUser
 }
