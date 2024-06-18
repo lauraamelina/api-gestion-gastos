@@ -19,7 +19,20 @@ const createUser = async (req, res) => {
         return res.status(500).json({ status: false, error: err.message })
     }
 }
+
+const updateUser = async (req, res) => {
+    const id = req.params.id
+    const user = req.body
+    try {
+        const newUser = await userService.updateUser(id, user);
+        return res.status(200).json({ status: true, data: newUser })
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message })
+    }
+}
+
 export {
     getUserById,
-    createUser
+    createUser,
+    updateUser
 }

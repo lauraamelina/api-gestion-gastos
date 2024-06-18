@@ -33,7 +33,24 @@ const createUser = async (newUser) => {
     }
 }
 
+const updateUser = async (id, newUser) => {
+    try {
+        const connection = await connectToDatabase()
+        const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [newUser.email])
+        if (users.length === 0) {
+            throw new Error('No existe el usuario')
+        }
+        await connection.execute('UPDATE usuarios SET email = ?, nombre = ? WHERE idUsuario = ?', [newUser.email, newUser.nombre, id]);
+        const [updatedUser] = await connection.execute('SELECT idUsuario, email, nombre FROM usuarios WHERE idUsuario = ?', [id]);
+        await connection.end()
+        return updatedUser[0];
+    } catch (error) {
+        throw error
+    }
+}
+
 export {
     getUserById,
-    createUser
+    createUser,
+    updateUser
 }
