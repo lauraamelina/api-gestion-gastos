@@ -42,9 +42,20 @@ const deleteCategoriaPersonalizada = async (id) => {
     }
 };
 
+const updateCategoriaPersonalizada = async (id, nombre) => {
+    try {
+        const connection = await connectToDatabase();
+        await connection.execute('UPDATE categoriasPersonalizadas SET nombre = ? WHERE idCategoriaPersonalizada = ?', [nombre, id]);
+        await connection.end();
+    } catch (err) {
+        throw err;
+    }
+};
+
 export {
     getAllCategoriasPersonalizadasByUserId,
     createCategoriaPersonalizada,
     getCategoriaPersonalizadaById,
-    deleteCategoriaPersonalizada
+    deleteCategoriaPersonalizada,
+    updateCategoriaPersonalizada
 };
