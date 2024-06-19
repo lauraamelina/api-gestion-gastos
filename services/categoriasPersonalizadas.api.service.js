@@ -32,9 +32,19 @@ const getCategoriaPersonalizadaById = async (id) => {
     }
 };
 
+const deleteCategoriaPersonalizada = async (id) => {
+    try {
+        const connection = await connectToDatabase();
+        await connection.execute('DELETE FROM categoriasPersonalizadas WHERE idCategoriaPersonalizada = ?', [id]);
+        await connection.end();
+    } catch (err) {
+        throw err;
+    }
+};
 
 export {
     getAllCategoriasPersonalizadasByUserId,
     createCategoriaPersonalizada,
     getCategoriaPersonalizadaById,
+    deleteCategoriaPersonalizada
 };
