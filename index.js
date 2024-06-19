@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import UserRoute from './routes/usuarios.api.route.js';
 import GruposGastosRoute from './routes/gruposGastos.api.route.js';
+import SubCategoriasRoute from './routes/subcategorias.api.route.js';
 import CategoriasRoute from './routes/categorias.api.route.js';
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors())
 app.use('/usuarios/', UserRoute)
 app.use('/gruposgastos/', GruposGastosRoute)
 app.use('/categorias/', CategoriasRoute)
+app.use('/subcategorias/', SubCategoriasRoute)
 
 app.get('/', (req, res) => {
     res.send({
