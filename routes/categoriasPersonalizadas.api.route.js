@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as controller from '../controllers/categoriasPersonalizadas.controller.js';
+import * as controller from '../controllers/categoriasPersonalizadas.api.controller.js';
 
 const route = Router();
 
