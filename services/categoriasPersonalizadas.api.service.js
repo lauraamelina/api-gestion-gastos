@@ -1,4 +1,4 @@
-import connectToDatabase from "./connection";
+import connectToDatabase from "./connection.js";
 
 const getAllCategoriasPersonalizadasByUserId = async (id) => {
     try {
