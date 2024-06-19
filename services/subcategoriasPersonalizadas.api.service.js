@@ -35,6 +35,10 @@ const getSubCategoriaPersonalizadaById = async (id) => {
 const deleteSubCategoriaPersonalizada = async (id) => {
     try {
         const connection = await connectToDatabase();
+        const [subCategoria] = await connection.execute('SELECT * FROM subCategoriasPersonalizadas WHERE idSubCategoriaPersonalizada = ?', [id]);
+        if (subCategoria.length === 0) {
+            throw new Error('Subcategoría personalizada no encontrada');
+        }
         await connection.execute('DELETE FROM subCategoriasPersonalizadas WHERE idSubCategoriaPersonalizada = ?', [id]);
         await connection.end();
     } catch (err) {
@@ -45,6 +49,10 @@ const deleteSubCategoriaPersonalizada = async (id) => {
 const updateSubCategoriaPersonalizada = async (id, nombre) => {
     try {
         const connection = await connectToDatabase();
+        const [subCategoria] = await connection.execute('SELECT * FROM subCategoriasPersonalizadas WHERE idSubCategoriaPersonalizada = ?', [id]);
+        if (subCategoria.length === 0) {
+            throw new Error('Subcategoría personalizada no encontrada');
+        }
         await connection.execute('UPDATE subCategoriasPersonalizadas SET nombre = ? WHERE idSubCategoriaPersonalizada = ?', [nombre, id]);
         await connection.end();
     } catch (err) {
