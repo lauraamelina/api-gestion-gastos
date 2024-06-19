@@ -11,6 +11,18 @@ const getAllSubCategories = async () => {
     }
 }
 
+const getSubCategoriesById = async (id) => {
+    try {
+        const connection = await connectToDatabase()
+        const [subcategoria] = await connection.execute('SELECT * FROM subcategorias where idSubCategoria = ?', [id])
+        await connection.end()
+        return subcategoria
+    } catch (err) {
+        throw err;
+    }
+}
+
 export {
-    getAllSubCategories
+    getAllSubCategories,
+    getSubCategoriesById
 }
