@@ -11,6 +11,19 @@ const getAllCategories = async () => {
     }
 }
 
+
+const getCategoriesById = async (id) => {
+    try {
+        const connection = await connectToDatabase()
+        const [categoria] = await connection.execute('SELECT * FROM categorias where idCategoria = ?', [id])
+        await connection.end()
+        return categoria
+    } catch (err) {
+        throw err;
+    }
+}
+
 export {
-    getAllCategories
+    getAllCategories,
+    getCategoriesById
 }
