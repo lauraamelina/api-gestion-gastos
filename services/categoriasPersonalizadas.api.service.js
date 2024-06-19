@@ -11,6 +11,18 @@ const getAllCategoriasPersonalizasByUserId = async (id) => {
     }
 }
 
+const createCategoriaPersonalizada = async (id, categoria) => {
+    try {
+        const connection = await connectToDatabase()
+        await connection.execute('INSERT INTO categoriaspersonalizadas(nombre, idUsuario) VALUES (?,?)',
+            [categoria.nombre, id]
+        )
+    } catch (err) {
+        throw err
+    }
+}
+
 export {
-    getAllCategoriasPersonalizasByUserId
+    getAllCategoriasPersonalizasByUserId,
+    createCategoriaPersonalizada
 }
