@@ -6,6 +6,7 @@ import GruposGastosRoute from './routes/gruposGastos.api.route.js';
 import SubCategoriasRoute from './routes/subcategorias.api.route.js';
 import CategoriasRoute from './routes/categorias.api.route.js';
 import CategoriasPersonalizadasRoute from './routes/categoriasPersonalizadas.api.route.js';
+import SubCategoriasPersonalizadasRoute from './routes/subcategoriasPersonalizadas.api.route.js';
 
 const app = express();
 app.use(bodyParser.json())
@@ -17,6 +18,7 @@ app.use('/gruposgastos/', GruposGastosRoute)
 app.use('/categorias/', CategoriasRoute)
 app.use('/subcategorias/', SubCategoriasRoute)
 app.use('/categorias-personalizadas/', CategoriasPersonalizadasRoute)
+app.use('/subcategorias-personalizadas/', SubCategoriasPersonalizadasRoute);
 
 app.get('/', (req, res) => {
     res.send({
