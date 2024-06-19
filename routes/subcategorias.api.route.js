@@ -6,5 +6,6 @@ const route = Router()
 
 route.get('/', controller.getAllSubCategories)
 route.get('/:id', controller.getSubCategoriesById)
+route.get('/categorias/:id', controller.getSubCategoriaByCategoriaId)
 
 export default route 
