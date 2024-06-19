@@ -11,7 +11,7 @@ const getAllCategoriasPersonalizadasByUserId = async (req, res) => {
 };
 
 const createCategoriaPersonalizada = async (req, res) => {
-    const idUser = req.params.idUser;
+    const idUser = req.params.id;
     const categoria = req.body;
     try {
         await service.createCategoriaPersonalizada(idUser, categoria);
