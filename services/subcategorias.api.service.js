@@ -22,7 +22,19 @@ const getSubCategoriesById = async (id) => {
     }
 }
 
+const getSubCategoriaByCategoriaId = async (id) => {
+    try {
+        const connection = await connectToDatabase()
+        const [subcategorias] = await connection.execute('SELECT * FROM subcategorias where idCategoria = ?', [id])
+        await connection.end()
+        return subcategorias
+    } catch (err) {
+        throw err;
+    }
+}
+
 export {
     getAllSubCategories,
-    getSubCategoriesById
+    getSubCategoriesById,
+    getSubCategoriaByCategoriaId
 }
