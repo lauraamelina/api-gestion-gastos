@@ -53,9 +53,25 @@ const removeGrupoGasto = async (idUser, idGrupoGasto) => {
     }
 };
 
+const updateGrupoGasto = async (idGrupoGasto, nombre) => {
+    try {
+        const connection = await connectToDatabase();
+        const [result] = await connection.execute(`
+            UPDATE gruposGastos SET nombre = ? WHERE idGrupoGasto = ?
+        `, [nombre, idGrupoGasto]);
+        await connection.end();
+        if (result.affectedRows === 0) {
+            throw new Error('El grupo de gasto no existe');
+        }
+    } catch (err) {
+        throw err;
+    }
+};
+
 
 export {
     getGruposGastosByUserId,
     addGrupoGasto,
-    removeGrupoGasto
+    removeGrupoGasto,
+    updateGrupoGasto
 }
