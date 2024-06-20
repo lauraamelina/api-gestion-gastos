@@ -20,7 +20,18 @@ const addGasto = async (req, res) => {
     }
 }
 
+const deleteGasto = async (req, res) => {
+    const id = req.params.id
+    try {
+        const response = await service.deleteGasto(id)
+        return res.status(200).json({ status: true, message: "Gasto eliminado correctamente" })
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message })
+    }
+}
+
 export {
     getGastosByUsuarioId,
-    addGasto
+    addGasto,
+    deleteGasto
 }

@@ -59,7 +59,22 @@ const addGasto = async (data) => {
     }
 }
 
+const deleteGasto = async (id) => {
+    try {
+        const connection = await connectToDatabase()
+        const [gasto] = await connection.execute('SELECT * FROM gastos WHERE idGasto = ?', [id]);
+        if (gasto.length === 0) {
+            throw new Error('El gasto no existe');
+        }
+        await connection.execute('DELETE FROM gastos WHERE idGasto = ?', [id])
+        await connection.end()
+    } catch (err) {
+        throw err
+    }
+}
+
 export {
     getGastosByUsuarioId,
-    addGasto
+    addGasto,
+    deleteGasto
 }
