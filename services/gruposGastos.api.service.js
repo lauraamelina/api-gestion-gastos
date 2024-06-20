@@ -41,12 +41,21 @@ const addGrupoGasto = async (idUser, nombreGrupoGasto) => {
 const removeGrupoGasto = async (idUser, idGrupoGasto) => {
     try {
         const connection = await connectToDatabase();
+        const [existingRelation] = await connection.execute(`
+            SELECT * FROM usuariosGruposGastos WHERE idUsuario = ? AND idGrupoGasto = ?
+        `, [idUser, idGrupoGasto]);
+
+        if (existingRelation.length === 0) {
+            await connection.end();
+            throw new Error('La relación entre usuario y grupo de gasto no existe');
+        }
         await connection.execute(`
             DELETE FROM usuariosGruposGastos WHERE idUsuario = ? AND idGrupoGasto = ?
         `, [idUser, idGrupoGasto]);
         await connection.execute(`
             DELETE FROM gruposGastos WHERE idGrupoGasto = ?
         `, [idGrupoGasto]);
+
         await connection.end();
     } catch (err) {
         throw err;
