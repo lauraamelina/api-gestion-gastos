@@ -32,8 +32,20 @@ const removeGrupoGasto = async (req, res) => {
     }
 };
 
+const updateGrupoGasto = async (req, res) => {
+    const idGrupoGasto = req.params.id;
+    const { nombre } = req.body;
+    try {
+        await service.updateGrupoGasto(idGrupoGasto, nombre);
+        return res.status(200).json({ status: true, message: "Grupo de gasto actualizado con éxito" });
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message });
+    }
+};
+
 export {
     getGruposGastosByUserId,
     addGrupoGasto,
-    removeGrupoGasto
+    removeGrupoGasto,
+    updateGrupoGasto
 }
