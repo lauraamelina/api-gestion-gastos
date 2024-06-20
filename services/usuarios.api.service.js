@@ -15,17 +15,27 @@ const getUserById = async (id) => {
         throw err
     }
 }
+const getUserByEmail = async (email) => {
+    try {
+        const connection = await connectToDatabase();
+        const [user] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+        await connection.end();
+        return user.length > 0 ? user[0] : null;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+};
+
+
 
 const createUser = async (newUser) => {
     try {
         const connection = await connectToDatabase()
         const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [newUser.email])
-        if (users.length > 0) {
-            throw new Error('Ya existe un usuario con ese email')
-        }
-        const passwordHash = await bcrypt.hash(newUser.password, 10)
+
         await connection.execute('INSERT INTO usuarios(email, password, nombre) VALUES (?,?,?)',
-            [newUser.email, passwordHash, newUser.nombre]
+            [newUser.email, newUser.hashedPassword, newUser.nombre]
         )
         await connection.end()
     } catch (error) {
@@ -51,6 +61,7 @@ const updateUser = async (id, newUser) => {
 
 export {
     getUserById,
+    getUserByEmail,
     createUser,
     updateUser
 }
