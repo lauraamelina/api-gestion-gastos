@@ -21,8 +21,19 @@ const addGrupoGasto = async (req, res) => {
     }
 };
 
+const removeGrupoGasto = async (req, res) => {
+    const idUser = req.params.userId;
+    const idGrupoGasto = req.params.id;
+    try {
+        await service.removeGrupoGasto(idUser, idGrupoGasto);
+        return res.status(200).json({ status: true, message: "Grupo de gasto eliminado con éxito" });
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message });
+    }
+};
 
 export {
     getGruposGastosByUserId,
-    addGrupoGasto
+    addGrupoGasto,
+    removeGrupoGasto
 }
