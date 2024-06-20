@@ -38,7 +38,24 @@ const addGrupoGasto = async (idUser, nombreGrupoGasto) => {
     }
 };
 
+const removeGrupoGasto = async (idUser, idGrupoGasto) => {
+    try {
+        const connection = await connectToDatabase();
+        await connection.execute(`
+            DELETE FROM usuariosGruposGastos WHERE idUsuario = ? AND idGrupoGasto = ?
+        `, [idUser, idGrupoGasto]);
+        await connection.execute(`
+            DELETE FROM gruposGastos WHERE idGrupoGasto = ?
+        `, [idGrupoGasto]);
+        await connection.end();
+    } catch (err) {
+        throw err;
+    }
+};
+
+
 export {
     getGruposGastosByUserId,
-    addGrupoGasto
+    addGrupoGasto,
+    removeGrupoGasto
 }
