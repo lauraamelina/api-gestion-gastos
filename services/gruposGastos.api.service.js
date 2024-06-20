@@ -19,6 +19,24 @@ const getGruposGastosByUserId = async (idUser) => {
     }
 }
 
+const getGrupoGastoById = async (id) => {
+    try {
+        const connection = await connectToDatabase()
+        const [grupoGasto] = await connection.execute(`
+            SELECT * 
+            FROM gruposGastos 
+            WHERE idGrupoGasto = ?
+        `, [id]);
+        await connection.end()
+        if (grupoGasto.length === 0) {
+            throw new Error('No existe el grupo gasto')
+        }
+        return grupoGasto;
+    } catch (err) {
+        throw err
+    }
+}
+
 const addGrupoGasto = async (idUser, nombreGrupoGasto) => {
     try {
         const connection = await connectToDatabase();
@@ -77,10 +95,35 @@ const updateGrupoGasto = async (idGrupoGasto, nombre) => {
     }
 };
 
+const shareGrupoGasto = async (idUser, idGrupoGasto) => {
+    try {
+        const connection = await connectToDatabase();
+
+        const [existingRelation] = await connection.execute(`
+            SELECT * FROM usuariosGruposGastos WHERE idUsuario = ? AND idGrupoGasto = ?
+        `, [idUser, idGrupoGasto]);
+
+        if (existingRelation.length > 0) {
+            await connection.end();
+            throw new Error('El usuario ya está asociado a este grupo de gasto');
+        }
+
+        await connection.execute(`
+            INSERT INTO usuariosGruposGastos (idUsuario, idGrupoGasto) VALUES (?, ?)
+        `, [idUser, idGrupoGasto]);
+
+        await connection.end();
+    } catch (err) {
+        throw err;
+    }
+};
+
 
 export {
     getGruposGastosByUserId,
+    getGrupoGastoById,
     addGrupoGasto,
     removeGrupoGasto,
-    updateGrupoGasto
+    updateGrupoGasto,
+    shareGrupoGasto
 }
