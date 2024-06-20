@@ -6,6 +6,6 @@ const route = express.Router()
 route.get('/usuarios/:id', controller.getGruposGastosByUserId)
 route.post('/usuarios/:id', controller.addGrupoGasto);
 route.put('/:id', controller.updateGrupoGasto);
-
+route.delete('/usuarios/:userId/:id', controller.removeGrupoGasto);
 
 export default route
