@@ -8,12 +8,14 @@ import CategoriasRoute from './routes/categorias.api.route.js';
 import CategoriasPersonalizadasRoute from './routes/categoriasPersonalizadas.api.route.js';
 import SubCategoriasPersonalizadasRoute from './routes/subcategoriasPersonalizadas.api.route.js';
 import GastosRoute from './routes/gastos.api.route.js'
+import AuthRoute from './routes/auth.api.route.js'
 
 const app = express();
 app.use(bodyParser.json())
 app.set('port', 8080)
 app.use(cors())
 
+app.use('/auth/', AuthRoute)
 app.use('/usuarios/', UserRoute)
 app.use('/gruposgastos/', GruposGastosRoute)
 app.use('/categorias/', CategoriasRoute)
