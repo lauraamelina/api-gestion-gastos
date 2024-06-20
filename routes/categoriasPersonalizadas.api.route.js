@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import * as controller from '../controllers/categoriasPersonalizadas.api.controller.js';
+import { authorization } from '../middleware/auth.middleware.js'
 
-const route = Router();
+const route = Router()
 
+route.use(authorization)
 route.get('/usuario/:id', controller.getAllCategoriasPersonalizadasByUserId);
 route.post('/usuario/:id', controller.createCategoriaPersonalizada);
 route.get('/:id', controller.getCategoriaPersonalizadaById);

@@ -1,10 +1,11 @@
-import express from 'express'
+import { Router } from 'express'
 import * as userController from '../controllers/usuarios.api.controller.js'
+import { authorization } from '../middleware/auth.middleware.js'
 
-const route = express.Router()
+const route = Router()
 
+route.use(authorization)
 route.get('/:id', userController.getUserById)
-route.post('/', userController.createUser)
 route.put('/:id', userController.updateUser)
 
 export default route
