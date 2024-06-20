@@ -30,8 +30,20 @@ const deleteGasto = async (req, res) => {
     }
 }
 
+const updateGasto = async (req, res) => {
+    const id = req.params.id
+    const data = req.body
+    try {
+        const response = await service.updateGasto(id, data)
+        return res.status(200).json({ status: true, message: "Gasto actualizado correctamente" })
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message })
+    }
+}
+
 export {
     getGastosByUsuarioId,
     addGasto,
-    deleteGasto
+    deleteGasto,
+    updateGasto
 }

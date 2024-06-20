@@ -6,5 +6,6 @@ const route = Router()
 route.get('/usuarios/:id', controller.getGastosByUsuarioId)
 route.post('/', controller.addGasto)
 route.delete('/:id', controller.deleteGasto)
+route.put('/:id', controller.updateGasto)
 
 export default route
