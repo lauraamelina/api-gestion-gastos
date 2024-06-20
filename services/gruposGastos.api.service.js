@@ -19,6 +19,26 @@ const getGruposGastosByUserId = async (idUser) => {
     }
 }
 
+const addGrupoGasto = async (idUser, nombreGrupoGasto) => {
+    try {
+        const connection = await connectToDatabase();
+        const [result] = await connection.execute(`
+            INSERT INTO gruposGastos (nombre) VALUES (?)
+        `, [nombreGrupoGasto]);
+
+        const idGrupoGasto = result.insertId;
+
+        await connection.execute(`
+            INSERT INTO usuariosGruposGastos (idUsuario, idGrupoGasto) VALUES (?, ?)
+        `, [idUser, idGrupoGasto]);
+
+        await connection.end();
+    } catch (err) {
+        throw err;
+    }
+};
+
 export {
-    getGruposGastosByUserId
+    getGruposGastosByUserId,
+    addGrupoGasto
 }
