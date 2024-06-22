@@ -43,18 +43,25 @@ const updateGrupoGasto = async (req, res) => {
         return res.status(500).json({ status: false, error: err.message });
     }
 };
-
 const shareGrupoGastoByEmail = async (req, res) => {
     const { idGrupoGasto, emailUsuario } = req.body;
+    const idUsuario = req.user.idUsuario;
     try {
+        const existingRelation = await service.checkUserInGrupoGasto(idUsuario, idGrupoGasto);
+        if (!existingRelation) {
+            return res.status(403).json({ status: false, error: 'No tienes permisos para compartir este grupo de gasto' });
+        }
+
         const existingGrupoGasto = await service.getGrupoGastoById(idGrupoGasto);
         if (!existingGrupoGasto) {
             return res.status(404).json({ status: false, error: 'El grupo de gasto no existe' });
         }
+
         const usuario = await getUserByEmail(emailUsuario);
         if (!usuario) {
             return res.status(404).json({ status: false, error: 'Usuario no encontrado' });
         }
+
         await service.shareGrupoGasto(usuario.idUsuario, idGrupoGasto);
 
         res.status(200).json({ status: true, message: `Grupo de gasto compartido con éxito con ${emailUsuario}` });
@@ -63,8 +70,6 @@ const shareGrupoGastoByEmail = async (req, res) => {
         res.status(500).json({ status: false, error: error.message });
     }
 };
-
-
 export {
     getGruposGastosByUserId,
     addGrupoGasto,
