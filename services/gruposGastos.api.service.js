@@ -118,6 +118,20 @@ const shareGrupoGasto = async (idUser, idGrupoGasto) => {
     }
 };
 
+const checkUserInGrupoGasto = async (idUser, idGrupoGasto) => {
+    try {
+        const connection = await connectToDatabase();
+        const [relation] = await connection.execute(
+            'SELECT * FROM usuariosGruposGastos WHERE idUsuario = ? AND idGrupoGasto = ?',
+            [idUser, idGrupoGasto]
+        );
+        await connection.end();
+        return relation.length > 0;
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 export {
     getGruposGastosByUserId,
@@ -125,5 +139,6 @@ export {
     addGrupoGasto,
     removeGrupoGasto,
     updateGrupoGasto,
-    shareGrupoGasto
+    shareGrupoGasto,
+    checkUserInGrupoGasto
 }
