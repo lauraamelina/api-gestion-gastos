@@ -45,7 +45,7 @@ const updateGrupoGasto = async (req, res) => {
 };
 const shareGrupoGastoByEmail = async (req, res) => {
     const { idGrupoGasto, emailUsuario } = req.body;
-    const idUsuario = req.user.idUsuario;
+    const idUsuario = req.user.id;
     try {
         const existingRelation = await service.checkUserInGrupoGasto(idUsuario, idGrupoGasto);
         if (!existingRelation) {
